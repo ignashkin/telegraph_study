@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.HtmlUtils;
  
 @Controller
 public class HomeController {
@@ -49,32 +50,37 @@ public class HomeController {
     public String getPostPage(@PathVariable String id,@CookieValue(value = "sessionID", required = false) Cookie cookie, Model model) {
         postRepository.readFromFile();
         Post post = postRepository.getById(id);
-        model.addAttribute("title", post.getTitle());
-        model.addAttribute("autor", post.getAutor());
-        model.addAttribute("text", post.getText());
-         if (cookie != null) {
-        model.addAttribute("allow_edit",cookie.getValue().equals(post.getUuid()));
-         } else {
-             model.addAttribute("allow_edit",false);
-         }
-        model.addAttribute("id",id);
-        return "/pattern";
+        if (post != null) {
+        
+            model.addAttribute("title", post.getTitle());
+            model.addAttribute("autor", post.getAutor());
+            model.addAttribute("text", post.getText());
+            if (cookie != null) {
+            model.addAttribute("allow_edit",cookie.getValue().equals(post.getUuid()));
+            } else {
+                model.addAttribute("allow_edit",false);
+            }
+            model.addAttribute("id",id);
+            return "/pattern";
+        }
+        return "/404";
     }
     
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String editPostPage(@PathVariable String id,@CookieValue(value = "sessionID", required = false) Cookie cookie, Model model) {
         postRepository.readFromFile();
         Post post = postRepository.getById(id);
-        System.out.println("post UUID "+post.getUuid());
-        //System.out.println("cookie UUID "+cookie.getValue());
-        if (cookie != null) {
-            if (cookie.getValue().equals(post.getUuid())) {
-                model.addAttribute("title", post.getTitle());
-                model.addAttribute("autor", post.getAutor());
-                model.addAttribute("text", post.getText());
-                return "/edit";
+        if (post != null) {
+            if (cookie != null) {
+                if (cookie.getValue().equals(post.getUuid())) {
+                    model.addAttribute("title", post.getTitle());
+                    model.addAttribute("autor", post.getAutor());
+                    model.addAttribute("text", post.getText());
+                    return "/edit";
+                }
             }
+            return "/unauth";
         }
-        return "/unauth";
+        return "/404";
     }
 }
