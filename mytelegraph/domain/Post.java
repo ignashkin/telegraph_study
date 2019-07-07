@@ -5,6 +5,8 @@
  */
 package com.gorohov.mytelegraph.domain;
 
+import org.springframework.web.util.HtmlUtils;
+
 /**
  *
  * @author ignat_nakhai
@@ -17,11 +19,11 @@ public class Post implements java.io.Serializable {
     
        
     public void setTitle(String title) {
-        this.title = title;
+        this.title = HtmlUtils.htmlEscape(title);
     }
     
     public void setAutor(String autor) {
-        this.autor = autor;
+        this.autor = HtmlUtils.htmlEscape(autor);
     }
     
     public void setUuid(String uuid) {
@@ -29,7 +31,7 @@ public class Post implements java.io.Serializable {
     }
     
     public void setText(String text) {
-        this.text = text;
+        this.text = HtmlUtils.htmlEscape(text);
     }
     
     public String getTitle() {
