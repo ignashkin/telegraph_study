@@ -32,14 +32,14 @@
     <body>
         <h1>Telegrach</h1>
         <form action="./" method="POST">       
-            <input type="text" placeholder="Заголовок" name="title" value="${title}">
+            <input type="text" placeholder="Заголовок" name="title" value="${title}" required>
             <br/>  <br/>
             <input type="text" placeholder="Подпись" name="autor" value="${autor}">
             <br/>  <br/>
             <p><b>Введите ваш текст:</b></p>
             <p><textarea name="text">${text}</textarea></p>
             <br /> 
-            <input type="submit" value="Add new post">
+            <input type="submit" value="Save post">
         </form>
     </body>
 </html>

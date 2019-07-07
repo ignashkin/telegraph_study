@@ -32,7 +32,7 @@
     <body>
         <h1>Telegrach</h1>
         <form action="./" method="POST">       
-            <input type="text" placeholder="Заголовок" name="title">
+            <input type="text" placeholder="Заголовок" name="title" required>
             <br/>  <br/>
             <input type="text" placeholder="Подпись" name="autor">
             <br/>  <br/>
