@@ -5,6 +5,9 @@
  */
 package com.gorohov.mytelegraph.domain;
 
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.web.util.HtmlUtils;
 
 /**
@@ -31,7 +34,11 @@ public class Post implements java.io.Serializable {
     }
     
     public void setText(String text) {
-        this.text = HtmlUtils.htmlEscape(text);
+        Parser parser = Parser.builder().build();
+        String insertText = HtmlUtils.htmlEscape(text);
+        Node document = parser.parse(insertText);
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        this.text = renderer.render(document);
     }
     
     public String getTitle() {
