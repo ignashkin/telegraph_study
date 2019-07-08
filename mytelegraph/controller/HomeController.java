@@ -26,8 +26,10 @@ import org.springframework.web.util.HtmlUtils;
 @Controller
 public class HomeController {
     private final  PostRepository postRepository = new PostRepository();
+    
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getIndexPage() {
+    public String getIndexPage(Model model) {
+        model.addAttribute("textButton", "Add new post");
         return "index";
     }
     
@@ -76,7 +78,8 @@ public class HomeController {
                     model.addAttribute("title", post.getTitle());
                     model.addAttribute("autor", post.getAutor());
                     model.addAttribute("text", post.getText());
-                    return "/edit";
+                    model.addAttribute("textButton", "Save post");
+                    return "/index";
                 }
             }
             return "/unauth";

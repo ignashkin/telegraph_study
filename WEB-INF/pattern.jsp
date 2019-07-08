@@ -12,9 +12,12 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>${title}</h1>
-        <h2>${autor}</h2>
-        <p>${text}</p>
- <c:if test="${allow_edit}"><p><a href="./${id}/edit/">Edit</a></p></c:if>
+        <div class="container">
+            <h1>${title}</h1>
+            <h2><span class="glyphicon glyphicon-user"></span>${autor}</h2>
+            <p>${text}</p>
+            <hr>
+            <c:if test="${allow_edit}"><p><a href="./${id}/edit/">Edit</a></p></c:if>
+        </div>
     </body>
 </html>
