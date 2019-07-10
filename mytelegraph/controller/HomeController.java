@@ -17,6 +17,9 @@ import com.gorohov.mytelegraph.repository.PostRepository;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,10 +56,13 @@ public class HomeController {
         postRepository.readFromFile();
         Post post = postRepository.getById(id);
         if (post != null) {
-        
             model.addAttribute("title", post.getTitle());
             model.addAttribute("autor", post.getAutor());
-            model.addAttribute("text", post.getText());
+            Parser parser = Parser.builder().build();
+            String insertText = HtmlUtils.htmlEscape(post.getText());
+            Node document = parser.parse(insertText);
+            HtmlRenderer renderer = HtmlRenderer.builder().build();
+            model.addAttribute("text", renderer.render(document));
             if (cookie != null) {
             model.addAttribute("allow_edit",cookie.getValue().equals(post.getUuid()));
             } else {
